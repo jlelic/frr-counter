@@ -72,7 +72,7 @@ items.forEach(item => {
     const {quality, slot, name} = item
     item.tooltip.forEach(line => {
         if (line.label == '<Random enchantment>') {
-            if (quality == 'Uncommon') {
+            if (quality == 'Uncommon' && item['class'] === 'Armor') {
                 const slotMod = slotMods[slot]
                 const statMod = slot === 'Finger' ? 170 : 230
                 const qualityMultiplier = qualityMultipliers[quality]
