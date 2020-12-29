@@ -45,8 +45,13 @@ class LoadLogForm extends React.Component {
             e.preventDefault()
         }
         this.setState({loading: true})
-        const split = this.inputRef.current.value.split('/')
-        const code = split[split.length - 1].split('#')[0]
+        let code = this.inputRef.current.value
+        code = code.split('#')[0]
+        if (code[code.length-1] == '/') {
+            code = code.slice(0, -1)
+        }
+        const split = code.split('/')
+        code = split[split.length-1]
         this.inputRef.current.value = code
         try {
             const responseLog = await fetch(`https://classic.warcraftlogs.com:443/v1/report/fights/${code}?translate=false&api_key=f256e2d5987d810f711d9cfd88df3504`)
