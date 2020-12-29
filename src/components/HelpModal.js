@@ -50,13 +50,13 @@ const HelpModal = (props) =>
                         <em>Ring?</em> - Shows whether the player had ring Ramaladni's Icy Grasp, reward from quest <a
                         className="questLink" target="_blank"
                         href="https://classic.wowhead.com/quest=9229/the-fate-of-ramaladni">The Fate of Ramaladni</a>.
-                        Costs 1 Frozen Rune.
+                        Requires 1 Frozen Rune.
                     </li>
                     <li>
                         <em>Pants?</em> - Shows whether the player had any pants that are reward from quest <a
                         className="questLink" target="_blank"
                         href="https://classic.wowhead.com/quest=9232/the-only-song-i-know">The Only Song I know</a>.
-                        Cost 2 Frozen Runes.
+                        Requires 2 Frozen Runes.
                     </li>
 
                 </ul>
