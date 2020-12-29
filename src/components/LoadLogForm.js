@@ -48,33 +48,37 @@ class LoadLogForm extends React.Component {
         const split = this.inputRef.current.value.split('/')
         const code = split[split.length - 1].split('#')[0]
         this.inputRef.current.value = code
-        const responseLog = await fetch(`https://classic.warcraftlogs.com:443/v1/report/fights/${code}?translate=false&api_key=f256e2d5987d810f711d9cfd88df3504`)
-        if (responseLog.ok) {
-            const logData = await responseLog.json()
-            const log = {name: logData.title, time: logData.start, owner: logData.owner, code}
-            const fights = []
-            log.fights = fights
-            for (let i = 0; i < logData.fights.length; i++) {
-                const {start_time, end_time, boss, name, bossPercentage, id} = logData.fights[i]
-                if (boss !== 1119) {
-                    continue
+        try {
+            const responseLog = await fetch(`https://classic.warcraftlogs.com:443/v1/report/fights/${code}?translate=false&api_key=f256e2d5987d810f711d9cfd88df3504`)
+            if (responseLog.ok) {
+                const logData = await responseLog.json()
+                const log = {name: logData.title, time: logData.start, owner: logData.owner, code}
+                const fights = []
+                log.fights = fights
+                for (let i = 0; i < logData.fights.length; i++) {
+                    const {start_time, end_time, boss, name, bossPercentage, id} = logData.fights[i]
+                    if (boss !== 1119) {
+                        continue
+                    }
+                    const response = await fetch(`https://classic.warcraftlogs.com:443/v1/report/tables/summary/${code}?start=${start_time}&end=${end_time}&translate=true&api_key=f256e2d5987d810f711d9cfd88df3504`)
+                    if (response.ok) {
+                        const report = await response.json()
+                        const players = this.processPlayerData(report, code, id)
+                        fights.push({players, start_time, end_time, name, bossPercentage})
+                    } else {
+                        this.setState({error: 'Error occured', loading: false})
+                    }
                 }
-                const response = await fetch(`https://classic.warcraftlogs.com:443/v1/report/tables/summary/${code}?start=${start_time}&end=${end_time}&translate=true&api_key=f256e2d5987d810f711d9cfd88df3504`)
-                if (response.ok) {
-                    const report = await response.json()
-                    const players = this.processPlayerData(report, code, id)
-                    fights.push({players, start_time, end_time, name, bossPercentage})
-                } else {
-                    this.setState({error: 'Error occured', loading: false})
-                }
+                this.setState({loading: false})
+                this.props.loadData(log)
+            } else {
+                this.setState({error: 'Error occured', loading: false})
+                return
             }
-            this.setState({loading: false})
-            this.props.loadData(log)
-        } else {
+        } catch (e) {
+            console.error(e)
             this.setState({error: 'Error occured', loading: false})
-            return
         }
-
     }
 
     processPlayerData = (fight, reportId, fightId) => {
@@ -95,7 +99,10 @@ class LoadLogForm extends React.Component {
                     gear: [],
                     link: `https://classic.warcraftlogs.com/reports/${reportId}#fight=${fightId}&source=${playerDetail.id}`
                 }
-                playerDetail.combatantInfo.gear.forEach(({id, name: itemName, slot, permanentEnchant}) => {
+                if (playerDetail.type === 'Unknown') {
+                    return
+                }
+                (playerDetail.combatantInfo.gear || []).forEach(({id, name: itemName, slot, permanentEnchant}) => {
                     const {frr = 0, quality, random, name} = frrData[id] || {}
                     player.frr += frr
                     if (frr > 0) {
