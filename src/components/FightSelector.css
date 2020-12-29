@@ -1,0 +1,8 @@
+.fightSelector {
+    display: inline-block;
+    padding: 5px 0px 5px 20px;
+}
+
+label {
+    padding-right: 10px;
+}

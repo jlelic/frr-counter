@@ -1,0 +1,13 @@
+.loadLogForm {
+    padding: 5px 0px 5px 20px;
+    display: inline-block;
+}
+
+.error {
+    color: red;
+}
+
+label {
+    padding-right: 10px;
+}
+
