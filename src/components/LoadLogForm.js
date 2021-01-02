@@ -6,9 +6,9 @@ import './LoadLogForm.css'
 
 const pantsMap = {
     'Glacial Leggings': 1,
-    'Icebane Leggings': 2,
+    'Polar Leggings': 2,
     'Icy Scale Leggings': 3,
-    'Polar Leggings': 4,
+    'Icebane Leggings': 4,
 }
 
 class LoadLogForm extends React.Component {
