@@ -128,7 +128,7 @@ class LoadLogForm extends React.Component {
                         })
                     } else if (permanentEnchant === 2484 || permanentEnchant === 2488) {
                         player.frr += 5
-                        player.gear.push({name: 'Shoulder Enchant', frr: 8, quality: 'Enchant'})
+                        player.gear.push({name: 'Shoulder Enchant', frr: 5, quality: 'Enchant'})
                     }
                     if (quality === 'Epic' && frr >= 20) {
                         player.epics++
