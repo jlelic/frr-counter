@@ -62,7 +62,7 @@ class LoadLogForm extends React.Component {
                 log.fights = fights
                 for (let i = 0; i < logData.fights.length; i++) {
                     const {start_time, end_time, boss, name, bossPercentage, id} = logData.fights[i]
-                    if (boss !== 1119) {
+                    if (boss !== 1119 && boss !== 1114) {
                         continue
                     }
                     const response = await fetch(`https://classic.warcraftlogs.com:443/v1/report/tables/summary/${code}?start=${start_time}&end=${end_time}&translate=true&api_key=f256e2d5987d810f711d9cfd88df3504`)

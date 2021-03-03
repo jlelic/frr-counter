@@ -30,7 +30,12 @@ class App extends Component {
     }
 
     loadData = (data) => {
-        const selectedFightIndex = data.fights.length - 1
+        let selectedFightIndex = 0
+        data.fights.forEach((fight,i ) => {
+            if (fight.boss == 'Sapphiron') {
+                selectedFightIndex = i
+            }
+        })
         let filteredPlayers = null
         if (selectedFightIndex >= 0) {
             filteredPlayers = this.filterPlayers(data.fights[selectedFightIndex].players, this.state.show)
